@@ -32,10 +32,10 @@ func (app *Config) obtenirGrafic() *canvas.Image {
 
 	if err != nil {
 		//No se puede obtener la imagen
-		img = canvas.NewImageFromFile(resourceNodisponiblePng)
+		img = canvas.NewImageFromResource(resourceNodisponiblePng)
 	} else {
 		//Crear la imagen
-		img := canvas.NewImageFromFile("pronostic.png")
+		img = canvas.NewImageFromFile("pronostic.png")
 	}
 
 	img.SetMinSize(fyne.Size{
@@ -43,7 +43,7 @@ func (app *Config) obtenirGrafic() *canvas.Image {
 		Height: 480,
 	})
 
-	return nil
+	return img
 
 }
 
@@ -69,13 +69,13 @@ func (app *Config) descarregaArxiu(url string, nomArxiu string) error {
 	}
 
 	//crear el archivo a donde lo guardaremos en un futuro
-	arxiu, err := os.Create(fmt.Springf("./%s", nomArxiu))
+	arxiu, err := os.Create(fmt.Sprintf("./%s", nomArxiu))
 	if err != nil {
 		return err
 	}
 
 	//condificación a PNG
-	err := png.Encode(arxiu, img)
+	err = png.Encode(arxiu, img)
 	if err != nil {
 		return err
 	}

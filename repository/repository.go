@@ -12,20 +12,18 @@ var (
 
 type Repository interface {
 	Migrate() error
-	InsertRegistre(registre Registres) (*Registres, error)
-	LlegirTots Registres() ([]Registres, error)
+	InsertRegistre(registres Registres) (*Registres, error)
+	LlegirTotsRegistres() ([]Registres, error)
 	LlegirRegistrePerID(id int64) (*Registres, error)
 	ActualitzarRegistre(id int64, actualitzar Registres) error
 	BorrarRegistre(id int64) error
-
 }
 
 type Registres struct {
-	ID int64 `json:"id"`
-	Data time.Time `json:"data_registre"
-	Precipitacio int `json:"precipitacio"`
-	TempMaxima int `json:"temp_maxima"`
-	TempMinima int `json:"temp_minima"`
-	Humitat int `json:"humitat"`
-
+	ID           int64     `json:"id"`
+	Data         time.Time `json:"data_registre"`
+	Precipitacio int       `json:"precipitacio"`
+	TempMaxima   int       `json:"temp_maxima"`
+	TempMinima   int       `json:"temp_minima"`
+	Humitat      int       `json:"humitat"`
 }

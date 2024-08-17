@@ -169,16 +169,16 @@ func GetPrediccio(url string) ([]int, error) {
 	err = json.Unmarshal([]byte(body), &prediccio)
 	if err != nil {
 		log.Println("Error!!! Unmarshall - hay un error convirtiendo el Json", err)
-		return "", err
+		return nil, err
 	}
 
 	precipitacio = prediccio[0].Prediccion.Dia[0].ProbPrecipitacion[0].Value
 	tempMax = prediccio[0].Prediccion.Dia[0].Temperatura.Maxima
 	tempMin = prediccio[0].Prediccion.Dia[0].Temperatura.Minima
-	humedad = prediccio[0].Prediccion.Dia[0].HumedadRelativa.Maxima
+	humitat = prediccio[0].Prediccion.Dia[0].HumedadRelativa.Maxima
 
 	var parte = Diaria{
-		ProbPrecipitacio: precipitacion,
+		ProbPrecipitacio: precipitacio,
 		TemperaturaMax:   tempMax,
 		TemperaturaMin:   tempMin,
 		HumitatRelativa:  humitat,

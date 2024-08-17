@@ -1,7 +1,10 @@
 package main
 
 import (
+	"time"
+
 	"fyne.io/fyne/theme"
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 )
@@ -27,16 +30,15 @@ func (app *Config) makeUI() {
 	toolBar := app.getToolBar(app.MainWindow)
 
 	pronosticContenidor := app.pronosticPestana()
+	registresTabContent := canvas.NewText("Contenido de la pestaña de registros", nil)
 
 	//Las pestañas
 	pestanes := container.NewAppTabs(
-		container.NewTabItemWithIcon("Pronóstic",
-			theme.HomeIcon(), pronosticContenidor(),
-			container.NewTabItemWithIcon("Diari Meteorologic"),
-			theme.InfoIcon(), canvas.NewText("jhkjhkhjkjkj", nil)),
+		container.NewTabItemWithIcon("Pronóstic", theme.HomeIcon(), pronosticContenidor),
+		container.NewTabItemWithIcon("Diari Meteorologic", theme.InfoIcon(), registresTabContent),
 	)
 
-	pestanes.SetTabLocation(container.SetTabLocationTop)
+	pestanes.SetTabLocation(container.TabLocationTop)
 
 	contenidorFinal := container.NewVBox(contenidorClimaDades, toolBar, pestanes)
 
@@ -54,7 +56,7 @@ func (app *Config) makeUI() {
 
 func (app *Config) actualitzarClimaDadesContent() {
 	app.InfoLog.Println("Cargando la info del clima")
-	precipitacio, tempMax, tempMin, humitat := getClimaText()
+	precipitacio, tempMax, tempMin, humitat := app.getClimaText()
 	app.ClimaDadesContainer.Objects = []fyne.CanvasObject{precipitacio, tempMax, tempMin, humitat}
 	app.ClimaDadesContainer.Refresh()
 
