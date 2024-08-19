@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"github.com/glebarez/go-sqlite"
 	"ecohortapp/repository"
 	"log"
 	"net/http"
@@ -10,7 +9,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-
+	_ "github.com/glebarez/go-sqlite"
 	//importar el paquete de la BBDD
 )
 
@@ -40,7 +39,8 @@ func main() {
 	//Conexión con la BBDD
 	sqlDB, err := myApp.connectSQL()
 	if err != nil {
-		log.Panic(err)
+		log.Panic(err) //Recordar que Panic es equivalente a Print pero acompañado de una llamada a Panic
+	}
 
 	//Crear un repositorio de BBDD
 	myApp.setupDB(sqlDB)
@@ -49,7 +49,7 @@ func main() {
 	myApp.MainWindow = fyneApp.NewWindow("Eco Hort App")
 	myApp.MainWindow.Resize(fyne.NewSize(800, 500)) //el tamaño de la nueva ventana
 	myApp.MainWindow.SetFixedSize(true)
-	myApp.MainWindow.SetMaster() //definiendo como pantalla princial
+	myApp.MainWindow.SetMaster() //definiendo como pantalla princial, si cerramos esta ventana la aplicación se cerrará
 
 	myApp.makeUI()
 	myApp.MainWindow.ShowAndRun()
@@ -58,14 +58,16 @@ func main() {
 	myApp.MainWindow.ShowAndRun()
 
 }
+
+// Realizar la función para invocar la conexión a la BBDD
 func (app *Config) connectSQL() (*sql.DB, error) {
 	path := ""
 
 	if os.Getenv("DB_PATH") != "" {
-		///REcuperar la variable de entorno
+		///Recuperar la variable de entorno
 		path = os.Getenv("DB_PATH")
 	} else {
-		path = app.App.Storage().RootURI().Path + "/sql.db"
+		path = app.App.Storage().RootURI().Path() + "/sql.db"
 		app.InfoLog.Println("La base de datos se guardará en: ", path)
 	}
 	db, err := sql.Open("sqlite", path)
@@ -75,15 +77,13 @@ func (app *Config) connectSQL() (*sql.DB, error) {
 	return db, nil
 
 }
-func (app *Config) setupDB(sql *sql.DB){
-	app.DB = repopsitory.NewSQLiteRepository(sqlDB)
+
+func (app *Config) setupDB(sqlDB *sql.DB) {
+	app.DB = repository.NewSQLiteRepository(sqlDB)
 
 	err := app.DB.Migrate()
 	if err != nil {
 		app.ErrorLog.Println("Error al migrar la base de datos", err)
+		log.Panic(err)
 	}
 }
-///ver que esta función está incompleta
-
-}
-	

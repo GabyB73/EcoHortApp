@@ -121,7 +121,7 @@ func (repo *SQLiteRepository) LlegirRegistrePerID(id int64) (*Registres, error) 
 
 }
 
-// Realizar la actualización del registro falta hacer esta función
+// Realizar la actualización del registro
 func (repo *SQLiteRepository) ActualitzarRegistre(id int64, actualitzar Registres) error {
 	//Validar si la id es 0 y así controlar posibles errores
 	if id == 0 {
