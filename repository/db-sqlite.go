@@ -22,7 +22,7 @@ func NewSQLiteRepository(db *sql.DB) *SQLiteRepository {
 para utilizar la conexión establecida por esta acción*/
 func (repo *SQLiteRepository) Migrate() error {
 	peticio := `
-		create table if not exist registres (
+		create table if not exists registres (
 			id integer primary key autoincrement,
 			data_registre integer not null,
 			precipitacio integer not null,
