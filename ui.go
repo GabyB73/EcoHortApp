@@ -65,3 +65,8 @@ func (app *Config) actualitzarClimaDadesContent() {
 	app.PronosticGraficContainer.Refresh()
 
 }
+func (app *Config) actualitzarRegistresTable() {
+	//Invocamos el método contenedor de los slices i le asignamos el atributo Registres del struct Config
+	app.Registres = app.getRegistresSlice()
+	app.RegistresTable.Refresh()
+}

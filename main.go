@@ -9,8 +9,8 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-	_ "github.com/glebarez/go-sqlite"
-	//importar el paquete de la BBDD
+	"fyne.io/fyne/v2/widget"
+	_ "github.com/glebarez/go-sqlite" //importar el paquete de la BBDD
 )
 
 type Config struct {
@@ -22,6 +22,8 @@ type Config struct {
 	HTTPClient               http.Client
 	PronosticGraficContainer *fyne.Container
 	DB                       repository.Repository
+	Registres                [][]interface{} //Para almacenar el slice de slices en forma de interfaz donde están contenidos los datos obtenidos de la BD
+	RegistresTable           *widget.Table   //Para almacenar la referencia al puntero que corresponde al widget de la tabla
 }
 
 var myApp Config
