@@ -8,6 +8,7 @@ import (
 	"fyne.io/fyne/v2/canvas"
 )
 
+// Hacemos una función que retornará 4 elementos de texto con fyne y que se realizará una inferencia a la estructura Config
 func (app *Config) getClimaText() (*canvas.Text, *canvas.Text, *canvas.Text, *canvas.Text) {
 
 	var parte Diaria                                         // contenedor del struct Diaria
@@ -25,7 +26,7 @@ func (app *Config) getClimaText() (*canvas.Text, *canvas.Text, *canvas.Text, *ca
 	} else {
 		colorTexto := color.RGBA{R: 0, G: 180, B: 0, A: 255} //definimos el color verde
 
-		//condicion de la probabilidad de lluvia
+		//condición de la probabilidad de lluvia
 
 		if prediccio.ProbPrecipitacio < 50 {
 			colorTexto = color.RGBA{R: 180, G: 0, B: 0, A: 255} //definimos el color azul

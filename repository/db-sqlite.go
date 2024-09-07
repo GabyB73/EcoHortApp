@@ -38,14 +38,23 @@ func (repo *SQLiteRepository) Migrate() error {
 
 func (repo *SQLiteRepository) InsertRegistre(registres Registres) (*Registres, error) {
 	//Preparar la instrucción para añadir un registro a la tabla registres
-	sentencia := "insert into registres (data_registre, precipitacio, temp_maxima, temp_minima, humitat) values (?, ?, ?, ?, ?)"
+	sentencia := "insert into registres (data_registre, precipitacio, temp_maxima, temp_minima, humitat) " +
+		"values (?, ?, ?, ?, ?)"
 
-	res, err := repo.Conn.Exec(sentencia, registres.Data.Unix, registres.Precipitacio, registres.TempMaxima, registres.TempMinima, registres.Humitat)
+	res, err := repo.Conn.Exec(
+		sentencia,
+		registres.Data.Unix,
+		registres.Precipitacio,
+		registres.TempMaxima,
+		registres.TempMinima,
+		registres.Humitat,
+	)
 	if err != nil {
 		return nil, err
 	}
 
-	//Añadir la llamada a la función LastInsertId() de la respuesta para obtener la id que se ha generado con la inserción
+	/*Añadir la llamada a la función LastInsertId() de la respuesta para obtener la id
+	que se ha generado con la inserción*/
 	id, err := res.LastInsertId()
 	if err != nil {
 		return nil, err
@@ -66,7 +75,7 @@ func (repo *SQLiteRepository) LlegirTotsRegistres() ([]Registres, error) {
 
 	}
 	defer files.Close() //Cerrar la conexión de la BD para optimizar
-
+	//Creamos la variable tots de tipo slice Registres
 	var tots []Registres
 	//Ejecutamos una estructura for para consultar uno de los resultados y lo incluiremos en el slice
 	for files.Next() {
@@ -125,11 +134,18 @@ func (repo *SQLiteRepository) LlegirRegistrePerID(id int64) (*Registres, error) 
 func (repo *SQLiteRepository) ActualitzarRegistre(id int64, actualitzar Registres) error {
 	//Validar si la id es 0 y así controlar posibles errores
 	if id == 0 {
-		return errors.New("La ID a actualizar es incorrecta")
+		return errors.New("la ID a actualizar es incorrecta")
 	}
 	//Preparamos la petición para actualizar los datos
 	sentencia := "Update registres set data_registre = ?, precipiacio = ?, temp_maxima = ?, temp_minima = ?, humitat = ?"
-	res, err := repo.Conn.Exec(sentencia, actualitzar.Data.Unix(), actualitzar.Precipitacio, actualitzar.TempMaxima, actualitzar.TempMinima, actualitzar.Humitat, id)
+	res, err := repo.Conn.Exec(
+		sentencia,
+		actualitzar.Data.Unix(),
+		actualitzar.Precipitacio,
+		actualitzar.TempMaxima,
+		actualitzar.TempMinima,
+		actualitzar.Humitat, id,
+	)
 	//Controlar posibles errores
 	if err != nil {
 		return err
@@ -140,7 +156,7 @@ func (repo *SQLiteRepository) ActualitzarRegistre(id int64, actualitzar Registre
 		return err
 	}
 	if afectats == 0 {
-		return updateError
+		return errUpdate
 	}
 	return nil
 }
@@ -158,7 +174,7 @@ func (repo *SQLiteRepository) BorrarRegistre(id int64) error {
 		return err
 	}
 	if afectats == 0 {
-		return deleteError
+		return errDelete
 
 	}
 	return nil

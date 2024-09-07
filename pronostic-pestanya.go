@@ -42,7 +42,9 @@ func (app *Config) obtenirGrafic() *canvas.Image {
 		Width:  770,
 		Height: 480,
 	})
-
+	//Determinamos como la imagen llenará el canvas
+	img.FillMode = canvas.ImageFillOriginal
+	//Retornamos la imagen
 	return img
 
 }
@@ -53,8 +55,9 @@ func (app *Config) descarregaArxiu(url string, nomArxiu string) error {
 	if err != nil {
 		return err
 	}
+
 	if res.StatusCode != 200 {
-		return errors.New("Error al descargar l'arxiu") //aqui se usa la libreia errors
+		return errors.New("error al descargar l'arxiu") //aqui se usa la libreia errors
 	}
 	binari, err := io.ReadAll(res.Body)
 	if err != nil {

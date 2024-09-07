@@ -54,7 +54,7 @@ func main() {
 	myApp.MainWindow.SetMaster() //definiendo como pantalla princial, si cerramos esta ventana la aplicación se cerrará
 
 	myApp.makeUI()
-	myApp.MainWindow.ShowAndRun()
+	//myApp.MainWindow.ShowAndRun()
 
 	//Mostrar y ejecutar la App
 	myApp.MainWindow.ShowAndRun()

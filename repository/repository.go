@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	updateError = errors.New("El update ha fallado")
-	deleteError = errors.New("Delete error")
+	errUpdate = errors.New("el update ha fallado") //Por convención, las variables de error se nombran con el prefijo err
+	errDelete = errors.New("delete error")
 )
 
 type Repository interface {
