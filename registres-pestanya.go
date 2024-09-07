@@ -43,40 +43,40 @@ func (app *Config) getRegistresTable() *widget.Table {
 		},
 		func(i widget.TableCellID, o fyne.CanvasObject) {
 			if i.Col == (len(app.Registres[0])-1) && i.Row != 0 {
-				//Ultima cel.la - situa un botò
+				//Ultima celda situa el botó de borrar
 				w := widget.NewButtonWithIcon("Borrar", theme.DeleteIcon(), func() {
-					//Presentem un dialeg de confirmació
+					//Presentamos un diálogo de confirmación para borrar
 					dialog.ShowConfirm("Borrar?", "", func(deleted bool) {
 						if deleted {
 							id, _ := strconv.Atoi(app.Registres[i.Row][0].(string)) //Transformem el identificador a decimal sencer
 							err := app.DB.BorrarRegistre(int64(id))                 //Invoquem el metode per borrar a partir d'un id
-							//Capturem possibles errors
+							//Capturamos el posible error en el log de errores
 							if err != nil {
 								app.ErrorLog.Println(err)
 							}
 						}
-						//Forcem el refresc de la taula
+						//Forzamos el refresco de la tabla
 						app.actualitzarRegistresTable()
 					}, app.MainWindow)
 				})
-				//Creem un widget d'alta importancia per mostrar un missatge destacat
+				//Creamos un widget de alta importancia para mostrar un mensaje destacado
 				w.Importance = widget.HighImportance
 
-				//Definim el contenidor a on situarem el objecte corresponent a el boto.
+				//Definimos el contenedor donde situaremos el objeto correspondiente al botón
 				o.(*fyne.Container).Objects = []fyne.CanvasObject{
 					w,
 				}
 			} else {
-				//situarem la informació rebuda en el slice, recordem que primer gestiona la fila i després la columna
+				//situaremos la información recibida en el slice, recordemos que primero gestiona la fila y después la columna
 				o.(*fyne.Container).Objects = []fyne.CanvasObject{
 					widget.NewLabel(app.Registres[i.Row][i.Col].(string)),
 				}
 			}
 		})
 
-	//Establim el ample de les diferents celdes
+	//Establecer el ancho de les diferentes celdas
 	colWidths := []float32{50, 100, 100, 100, 100, 100, 110}
-	//Executem una estructura for per aplicar cada un de els amples amb el metode SetColumnWidth
+	//Ejecutamos una estructura for para aplicar cada un de los anchos con el método SetColumnWidth
 	for i := 0; i < len(colWidths); i++ {
 		t.SetColumnWidth(i, colWidths[i])
 	}

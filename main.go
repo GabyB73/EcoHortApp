@@ -14,16 +14,21 @@ import (
 )
 
 type Config struct {
-	App                      fyne.App    //El atributo a donde alamcenaremos la configuración base de la app
-	InfoLog                  *log.Logger //El atributo a donde almacenaremos el log de información
-	ErrorLog                 *log.Logger //El atributo a donde almacenaremos el log de errores
-	MainWindow               fyne.Window
-	ClimaDadesContainer      *fyne.Container
-	HTTPClient               http.Client
-	PronosticGraficContainer *fyne.Container
-	DB                       repository.Repository
-	Registres                [][]interface{} //Para almacenar el slice de slices en forma de interfaz donde están contenidos los datos obtenidos de la BD
-	RegistresTable           *widget.Table   //Para almacenar la referencia al puntero que corresponde al widget de la tabla
+	App                                fyne.App    //El atributo a donde alamcenaremos la configuración base de la app
+	InfoLog                            *log.Logger //El atributo a donde almacenaremos el log de información
+	ErrorLog                           *log.Logger //El atributo a donde almacenaremos el log de errores
+	MainWindow                         fyne.Window
+	ClimaDadesContainer                *fyne.Container
+	HTTPClient                         http.Client
+	PronosticGraficContainer           *fyne.Container
+	DB                                 repository.Repository //Definir la referencia a la conexión de la BBDD SQLite
+	Registres                          [][]interface{}       //Para almacenar el slice de slices en forma de interfaz donde están contenidos los datos obtenidos de la BD
+	RegistresTable                     *widget.Table         //Para almacenar la referencia al puntero que corresponde al widget de la tabla
+	AfegirRegistresDataRegistreEntrada *widget.Entry         //Añadir la referencia a la entrada del valor data registre para nuevos registros que guardemos en la bd
+	AfegirRegistresPrecipitacioEntrada *widget.Entry         //Añadir la referencia a la entrada del valor precipitacio para nuevos registros que guardemos en la bd
+	AfegirRegistresTempMaximaEntrada   *widget.Entry         //Añadir la referencia a la entrada del valor tempMaxima para nuevos registros que guardemos en la bd
+	AfegirRegistresTempMinimaEntrada   *widget.Entry         //Añadir la referencia a la entrada del valor tempMinima para nuevos registros que guardemos en la bd
+	AfegirRegistresHumitatEntrada      *widget.Entry         //Añadir la referencia a la entrada del valor humitat para nuevos registros que guardemos en la bd
 }
 
 var myApp Config
