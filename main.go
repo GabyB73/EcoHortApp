@@ -29,6 +29,8 @@ type Config struct {
 	AfegirRegistresTempMaximaEntrada   *widget.Entry         //Añadir la referencia a la entrada del valor tempMaxima para nuevos registros que guardemos en la bd
 	AfegirRegistresTempMinimaEntrada   *widget.Entry         //Añadir la referencia a la entrada del valor tempMinima para nuevos registros que guardemos en la bd
 	AfegirRegistresHumitatEntrada      *widget.Entry         //Añadir la referencia a la entrada del valor humitat para nuevos registros que guardemos en la bd
+	municipi                           string                //Añadimos la referencia a este valor de configuración para que se guarde en la base de datos
+	apiKey                             string                //Añadimos la referencia a este valor de configuración para que se guarde en la base de datos
 }
 
 var myApp Config
@@ -52,14 +54,17 @@ func main() {
 	//Crear un repositorio de BBDD
 	myApp.setupDB(sqlDB)
 
+	//Definir la capacidad de que el usuario modifique el municipio y la apiKey
+	municipi = fyneApp.Preferences().StringWithFallback("municipi", "08001")
+	apiKey = fyneApp.Preferences().StringWithFallback("apiKey", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvZGlnaW9jaW9AZ21haWwuY29tIiwianRpIjoiYjRlZTViMjctZDhhMS00YmIxLWFiZjgtYmFjYTViOTc5ZDhjIiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE2NzU2MTY3OTIsInVzZXJJZCI6ImI0ZWU1YjI3LWQ4YTEtNGJiMS1hYmY4LWJhY2E1Yjk3OWQ4YyIsInJvbGUiOiIifQ.y-WKC8DkAJ4O__aNkvWS60AwmYl6dVHcBZKcowfmNKs")
+
 	//Configurar el tamaño y características de la pantalla principal de fyne
 	myApp.MainWindow = fyneApp.NewWindow("Eco Hort App")
 	myApp.MainWindow.Resize(fyne.NewSize(800, 500)) //el tamaño de la nueva ventana
 	myApp.MainWindow.SetFixedSize(true)
 	myApp.MainWindow.SetMaster() //definiendo como pantalla princial, si cerramos esta ventana la aplicación se cerrará
 
-	myApp.makeUI()
-	//myApp.MainWindow.ShowAndRun()
+	myApp.makeUI() //Crear una invocación a una función externa que creará la interfaz gráfica a partir del contenido
 
 	//Mostrar y ejecutar la App
 	myApp.MainWindow.ShowAndRun()
@@ -77,6 +82,7 @@ func (app *Config) connectSQL() (*sql.DB, error) {
 		path = app.App.Storage().RootURI().Path() + "/sql.db"
 		app.InfoLog.Println("La base de datos se guardará en: ", path)
 	}
+
 	db, err := sql.Open("sqlite", path)
 	if err != nil {
 		return nil, err
@@ -85,6 +91,7 @@ func (app *Config) connectSQL() (*sql.DB, error) {
 
 }
 
+// Crear un repositorio para la BBDD
 func (app *Config) setupDB(sqlDB *sql.DB) {
 	app.DB = repository.NewSQLiteRepository(sqlDB)
 

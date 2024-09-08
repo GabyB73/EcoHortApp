@@ -8,6 +8,9 @@ import (
 	"time"
 )
 
+var municipi = "08001" //Definimos el municipio para la consulta de los valores climatológicos
+var apiKey = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvZGlnaW9jaW9AZ21haWwuY29tIiwianRpIjoiYjRlZTViMjctZDhhMS00YmIxLWFiZjgtYmFjYTViOTc5ZDhjIiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE2NzU2MTY3OTIsInVzZXJJZCI6ImI0ZWU1YjI3LWQ4YTEtNGJiMS1hYmY4LWJhY2E1Yjk3OWQ4YyIsInJvbGUiOiIifQ.y-WKC8DkAJ4O__aNkvWS60AwmYl6dVHcBZKcowfmNKs"
+
 type PreUrl struct {
 	Url    string `json:"datos"` //Definimos que el campo Url será de tipo igual que el item "datos" de JSON obtenido
 	Client *http.Client
